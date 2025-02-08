@@ -1,0 +1,128 @@
+networks:
+
+  t3lls_gate--app_net:
+    external: true
+  
+  t3lls_gate--adminer_net:
+    external: true
+  
+  db-mailfreely--adminer_net:
+    driver: bridge
+  
+  mailfreely_internal:
+    driver: bridge
+
+services:
+
+  db:
+    image: postgres:15-alpine
+    container_name: mailfreely-db
+    restart: always
+    environment:
+      POSTGRES_DB: mailfreely
+      POSTGRES_USER: mailfreely_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
+    volumes:
+      - ./db-mailfreely/data:/var/lib/postgresql/data
+      - ./api/src/database/migration.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    networks:
+      - mailfreely_internal
+      - db-mailfreely--adminer_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mailfreely_user -d mailfreely"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    stop_grace_period: 10s
+
+  # api:
+  #   build:
+  #     context: ./api
+  #     dockerfile: Dockerfile
+  #   container_name: mailfreely-api
+  #   restart: always
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   environment:
+  #     NODE_ENV: production
+  #     PORT: 3001
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_NAME: mailfreely
+  #     DB_USER: mailfreely_user
+  #   secrets:
+  #     - postgres_password
+  #     - postgres_connection
+  #   networks:
+  #     - t3lls_gate--app_net
+  #     - mailfreely_internal
+  #   stop_grace_period: 10s
+
+  # api-dev:
+  #   container_name: mailfreely-api-dev
+  #   build:
+  #     context: ./api
+  #     dockerfile: dev.Dockerfile
+  #   restart: always
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   environment:
+  #     NODE_ENV: development
+  #     PORT: 3001
+  #     DB_HOST: db
+  #     DB_PORT: 5432
+  #     DB_NAME: mailfreely
+  #     DB_USER: mailfreely_user
+  #   secrets:
+  #     - postgres_password
+  #     - postgres_connection
+  #   networks:
+  #     - t3lls_gate--app_net
+  #     - mailfreely_internal
+  #   volumes:
+  #     - ./api/src:/app/src
+  #   stop_grace_period: 10s
+
+  njs:
+    build:
+      context: ./njs-mailfreely/next-app
+      dockerfile: prod.Dockerfile
+    restart: always
+    networks: # internal port 3000
+      - t3lls_gate--app_net
+    env_file:
+      - ./njs-mailfreely/.env
+    stop_grace_period: 0s
+
+  njs-dev:
+    container_name: mailfreely-njs-dev
+    build:
+      context: ./njs-mailfreely/next-app
+      dockerfile: dev.Dockerfile
+    restart: always
+    networks: # internal port 3000
+      - t3lls_gate--app_net
+    volumes:
+      - ./njs-mailfreely/next-app/src:/app/src
+      - ./njs-mailfreely/next-app/public:/app/public
+    env_file:
+      - ./njs-mailfreely/.env
+    stop_grace_period: 0s
+
+  db-mailfreely-adminer:
+    container_name: mailfreely-db-mailfreely-adminer
+    image: adminer
+    restart: always
+    networks: # internal port 8080
+      - t3lls_gate--adminer_net
+      - db-mailfreely--adminer_net
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+  postgres_connection:
+    file: ./secrets/postgres_connection.txt

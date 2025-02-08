@@ -1,0 +1,46 @@
+# Node.js dependencies
+api/node_modules/
+njs-mailfreely/next-app/node_modules/
+njs-mailfreely/next-app/.next/
+
+# Database data
+db-mailfreely/data/
+
+# Docker secrets (sensitive data)
+secrets/postgres_password.txt
+secrets/postgres_connection.txt
+
+# Environment files with sensitive data
+.env
+.env.local
+.env.production
+.env.development
+
+# Logs
+*.log
+logs/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build outputs
+api/dist/
+njs-mailfreely/next-app/dist/
+njs-mailfreely/next-app/build/
+
+# Coverage and testing
+coverage/
+.nyc_output/
+test-results/
