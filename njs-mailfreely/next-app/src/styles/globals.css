@@ -1,0 +1,43 @@
+@import url("https://t3l.ls/data/fonts/roboto/import.css");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Reddit Sans", Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #ffffff;
+    background: #0a0a0a;
+    margin: 0;
+    padding: 0;
+    overscroll-behavior: none;
+}
+
+img[alt="Info icon"]{
+    display: none;
+}
+
+button{
+    &:hover{
+        cursor: pointer;
+    }
+}
+
+@media only screen and (max-width: 570px) {
+    *, body, html {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    *, body, html {
+        font-size: 10px;
+    }
+}

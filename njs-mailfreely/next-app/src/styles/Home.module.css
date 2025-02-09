@@ -1,0 +1,90 @@
+.a {
+    font-size: 1.5rem;
+    text-decoration: underline;
+}
+
+.a:hover {
+    cursor: pointer;
+}
+
+.videocontainer {
+    background-color: black;
+    font: 2rem 'Mohave';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.videocontainer video {
+    width: 100%;
+    height: 100%;
+}
+
+.legalcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.h1 {
+    text-align: left;
+    margin: 0px;
+    font-weight: 600;
+    font-size: 4.5rem;
+    width: 100%;
+}
+
+.tag {
+    text-align: left;
+    margin: 0px;
+    font-weight: 600;
+    font-size: 3rem;
+    display: inline-block;
+}
+
+.text {
+    text-align: left;
+    margin: 0px;
+    font-weight: 300;
+    font-size: 2rem;
+    display: inline-block;
+}
+
+.fadep {
+    position: absolute;
+    font: 1.5rem 'Mohave';
+    animation: fadeIn ease 1s;
+    -webkit-animation: fadeIn ease 1s;
+    -moz-animation: fadeIn ease 1s;
+    -o-animation: fadeIn ease 1s;
+    -ms-animation: fadeIn ease 1s;
+    text-align: center;
+    font-size: 4rem;
+    bottom: 2rem;
+    left: 0;
+    right: 0;
+}
+
+.flex {
+    position: absolute;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.rem2-spacer {
+    height: 2rem;
+}
+
+.rem1-spacer {
+    height: 1rem;
+}
+
+.fade-p a {
+    color: #ffffff;
+    padding: 0px 10px;
+}
